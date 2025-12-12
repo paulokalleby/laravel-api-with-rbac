@@ -1,0 +1,23 @@
+services:
+  laravel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${APP_TAG}-serve
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - redis
+      - postgres
+    ports:
+      - "8000:8000"
+    command: php artisan serve --host=0.0.0.0 --port=8000
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: ${APP_TAG}-mailhog
+    ports:
+      - "8025:8025"
+    networks:
+      - app-network
