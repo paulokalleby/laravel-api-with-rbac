@@ -1,5 +1,7 @@
 # Laravel API com RBAC (Role-Based Access Control)
 
+![alt text](image-1.png)
+
 Uma API RESTful desenvolvida com Laravel 12, incluindo autenticação via JWT com Laravel Sanctum, autorização baseada em papéis e permissões (RBAC), documentação OpenAPI automática, testes automatizados, e ambiente otimizado para produção utilizando Laravel Octane + Swoole.
 
 ## Recursos
@@ -91,3 +93,5 @@ http://localhost:8000/docs/api
 ```bash
 php artisan test
 ```
+
+![alt text](image.png)
