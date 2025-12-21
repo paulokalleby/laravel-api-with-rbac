@@ -19,10 +19,10 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $auth = $this->auth->login($request->validated());
+        $auth = $this->auth->login($request);
 
         return (new AuthResource($auth['user']))->additional([
-            'token' => $auth['token']
+            'token' => $auth['token'],
         ]);
     }
 

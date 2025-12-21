@@ -3,23 +3,29 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Traits\Deviceable;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 
 class AuthService
 {
-    public function login(array $data): array
+    use Deviceable;
+
+    public function login(Request $request): array
     {
+        $data = $request->validated();
+
         $user = User::where('email', $data['email'])->first();
 
-        if (!$user || !Hash::check($data['password'], $user->password)) {
+        if (! $user || ! Hash::check($data['password'], $user->password)) {
             throw ValidationException::withMessages([
                 'message' => ['As credenciais fornecidas estão incorretas.'],
             ]);
         }
 
-        if (!$user->is_active) {
+        if (! $user->is_active) {
             throw ValidationException::withMessages([
                 'message' => ['A conta do usuário está inativa.'],
             ]);
@@ -27,11 +33,16 @@ class AuthService
 
         $user->tokens()->delete();
 
-        $token = $user->createToken($data['device'])->plainTextToken;
+        $device = $this->resolveDevice($request->userAgent());
+
+        $token = $user->createToken($device);
+
+        $token->accessToken->ip_address = $request->ip();
+        $token->accessToken->save();
 
         return [
             'user'  => $user,
-            'token' => $token,
+            'token' => $token->plainTextToken,
         ];
     }
 

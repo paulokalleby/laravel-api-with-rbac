@@ -16,7 +16,7 @@ class UserService
         $filters  = collect($filters)->except('paginate')->toArray();
 
         $query =  $this->user
-            ->with(['roles'])
+            ->with(['roles', 'sessions'])
             ->applyFilters($filters)
             ->applySort($filters['sort'] ?? null);
 
@@ -27,7 +27,7 @@ class UserService
 
     public function findUserById(string $id): User
     {
-        return $this->user->with('roles')->findOrFail($id);
+        return $this->user->with(['roles', 'sessions'])->findOrFail($id);
     }
 
     public function createUser(array $data): User

@@ -11,10 +11,12 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class User extends Authenticatable
 {
@@ -54,6 +56,14 @@ class User extends Authenticatable
     {
         return Attribute::make(
             set: fn(?string $value) => !empty($value) ? bcrypt($value) : $this->password,
+        );
+    }
+
+    public function sessions(): MorphMany
+    {
+        return $this->morphMany(
+            PersonalAccessToken::class,
+            'tokenable'
         );
     }
 

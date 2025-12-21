@@ -31,6 +31,8 @@ return new class extends Migration
             $table->id();
             $table->uuidMorphs('tokenable');
             $table->text('name');
+            $table->string('ip_address', 45)->nullable();
+            $table->string('location')->nullable();
             $table->string('token', 64)->unique();
             $table->text('abilities')->nullable();
             $table->timestamp('last_used_at')->nullable();
