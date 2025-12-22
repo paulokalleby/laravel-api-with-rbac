@@ -7,7 +7,6 @@ use App\Traits\Deviceable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Auth;
 
 class AuthService
 {
@@ -31,7 +30,7 @@ class AuthService
             ]);
         }
 
-        $user->tokens()->delete();
+        //$user->tokens()->delete();
 
         $device = $this->resolveDevice($request->userAgent());
 
@@ -53,17 +52,17 @@ class AuthService
 
     public function logout(): void
     {
-        Auth::user()?->tokens()->delete();
+        request()->user()?->currentAccessToken()?->delete();
     }
 
     public function getAuthenticatedUser(): ?User
     {
-        return Auth::user();
+        return request()->user();
     }
 
     public function updateProfile(array $data): User
     {
-        $user = Auth::user();
+        $user = request()->user();
         $user->update($data);
 
         return $user;
