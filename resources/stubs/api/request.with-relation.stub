@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class {{ model }}Request extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            //
+            '{{ relation }}'   => ['nullable', 'array'],
+            '{{ relation }}.*' => ['uuid', 'distinct', 'exists:{{ relation }},id'],
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            //
+            '{{ relation }}'   => '{{ relationLabelPlural }}',
+            '{{ relation }}.*' => '{{ relationLabel }}',
+        ];
+    }
+}

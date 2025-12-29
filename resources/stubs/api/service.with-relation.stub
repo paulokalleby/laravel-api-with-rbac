@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\{{ model }};
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+
+class {{ model }}Service
+{
+    public function __construct(protected {{ model }} ${{ modelVariable }}) {}
+
+    public function getAll{{ modelPlural }}(array $filters = []): Collection|LengthAwarePaginator
+    {
+        $paginate = data_get($filters, 'paginate');
+        $filters  = collect($filters)->except('paginate')->toArray();
+
+        $query = $this->{{ modelVariable }}
+            ->with(['{{ relation }}'])
+            ->applyFilters($filters)
+            ->applySort($filters['sort'] ?? null);
+
+        return is_numeric($paginate)
+            ? $query->paginate($paginate)
+            : $query->get();
+    }
+
+    public function find{{ model }}ById(string $id): {{ model }}
+    {
+        return $this->{{ modelVariable }}
+            ->with(['{{ relation }}'])
+            ->findOrFail($id);
+    }
+
+    public function create{{ model }}(array $data): {{ model }}
+    {
+        ${{ modelVariable }} = $this->{{ modelVariable }}->create($data);
+
+        ${{ modelVariable }}->attach{{ relationStudly }}($data['{{ relation }}'] ?? []);
+
+        return ${{ modelVariable }}->load('{{ relation }}');
+    }
+
+    public function update{{ model }}(array $data, string $id): {{ model }}
+    {
+        ${{ modelVariable }} = $this->{{ modelVariable }}->findOrFail($id);
+
+        ${{ modelVariable }}->update($data);
+
+        ${{ modelVariable }}->sync{{ relationStudly }}($data['{{ relation }}'] ?? []);
+
+        return ${{ modelVariable }}->load('{{ relation }}');
+    }
+
+    public function delete{{ model }}(string $id): bool
+    {
+        return $this->{{ modelVariable }}->findOrFail($id)->delete();
+    }
+}

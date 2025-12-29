@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Models;
+
+use App\Traits\Filterable;
+use App\Traits\Relationable;
+use App\Traits\Sortable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+class {{ model }} extends Model
+{
+    use HasFactory, HasUuids, Sortable, Filterable, Relationable;
+
+    protected $fillable = [
+        //
+    ];
+
+    protected array $filterable = [
+        //
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public function {{ relation }}(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            {{ relationModel }}::class,
+            '{{ pivotTable }}'
+        );
+    }
+}

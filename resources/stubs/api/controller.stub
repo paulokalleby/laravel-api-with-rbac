@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\{{ model }}Request;
+use App\Http\Resources\{{ model }}Resource;
+use App\Services\{{ model }}Service;
+use Illuminate\Http\Request;
+
+class {{ model }}Controller extends Controller
+{
+    public function __construct(protected {{ model }}Service ${{ modelVariable }}) {}
+
+    public function index(Request $request)
+    {
+        return {{ model }}Resource::collection(
+            $this->{{ modelVariable }}->getAll{{ modelPlural }}((array) $request->all())
+        );
+    }
+
+    public function store({{ model }}Request $request)
+    {
+        return new {{ model }}Resource(
+            $this->{{ modelVariable }}->create{{ model }}(
+                (array) $request->validated()
+            )
+        );
+    }
+
+    public function show(string $id)
+    {
+        return new {{ model }}Resource(
+            $this->{{ modelVariable }}->find{{ model }}ById($id)
+        );
+    }
+
+    public function update({{ model }}Request $request, string $id)
+    {
+        return new {{ model }}Resource(
+            $this->{{ modelVariable }}->update{{ model }}(
+                (array) $request->validated(),
+                $id
+            )
+        );
+    }
+
+    public function destroy(string $id)
+    {
+        $this->{{ modelVariable }}->delete{{ model }}($id);
+
+        return response()->noContent();
+    }
+}
