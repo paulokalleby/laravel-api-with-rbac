@@ -21,7 +21,7 @@ class PasswordController extends Controller
         );
 
         return response()->json([
-            'message' => 'Código enviado para o e-mail!'
+            'message' => 'Código enviado para o e-mail!',
         ]);
     }
 
@@ -32,7 +32,7 @@ class PasswordController extends Controller
         );
 
         return response()->json([
-            'message' => 'Código validado, informe a nova senha!'
+            'message' => 'Código validado, informe a nova senha!',
         ]);
     }
 
@@ -43,7 +43,7 @@ class PasswordController extends Controller
         );
 
         return response()->json([
-            'message' => 'Senha alterada com sucesso!'
+            'message' => 'Senha alterada com sucesso!',
         ]);
     }
 }

@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Mail\ResetPasswordCodeMail;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PasswordResetService
 {
@@ -16,7 +16,7 @@ class PasswordResetService
             ->whereEmail($data['email'])
             ->first();
 
-        if (!$user) {
+        if (! $user) {
             throw new ModelNotFoundException('Usuário não encontrado.');
         }
 
@@ -37,7 +37,7 @@ class PasswordResetService
             ->where('token', $data['code'])
             ->first();
 
-        if (!$reset) {
+        if (! $reset) {
             abort(400, 'Código inválido.');
         }
 
@@ -53,7 +53,7 @@ class PasswordResetService
             ->whereToken($data['code'])
             ->first();
 
-        if (!$passwordReset) {
+        if (! $passwordReset) {
             abort(400, 'Código inválido ou expirado.');
         }
 
@@ -61,7 +61,7 @@ class PasswordResetService
             ->whereEmail($data['email'])
             ->first();
 
-        if (!$user) {
+        if (! $user) {
             throw new ModelNotFoundException('Usuário não encontrado.');
         }
 

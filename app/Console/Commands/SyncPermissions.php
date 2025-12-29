@@ -3,14 +3,15 @@
 namespace App\Console\Commands;
 
 use App\Http\Middleware\CheckLoggedUserPermissions;
+use App\Models\Permission;
+use App\Models\Resource;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Route;
-use App\Models\Resource;
-use App\Models\Permission;
 
 class SyncPermissionsCommand extends Command
 {
-    protected $signature   = 'rbac:sync';
+    protected $signature = 'rbac:sync';
+
     protected $description = 'Sincroniza resources e permissions com base nas rotas nomeadas da API';
 
     public function handle()
@@ -22,13 +23,13 @@ class SyncPermissionsCommand extends Command
         foreach ($routes as $route) {
             $routeName = $route->getName();
 
-            if (!$routeName) {
+            if (! $routeName) {
                 continue;
             }
 
             $middlewares = $route->gatherMiddleware();
 
-            if (!in_array(CheckLoggedUserPermissions::class, $middlewares)) {
+            if (! in_array(CheckLoggedUserPermissions::class, $middlewares)) {
                 continue;
             }
 
@@ -37,9 +38,9 @@ class SyncPermissionsCommand extends Command
                 continue;
             }
 
-            $resourceName   = $parts[0];     // users
+            $resourceName = $parts[0];     // users
             $permissionName = end($parts);   // update
-            $action         = $routeName;    // users.update
+            $action = $routeName;    // users.update
 
             $resource = Resource::firstOrCreate(
                 ['name' => $resourceName]
@@ -51,7 +52,7 @@ class SyncPermissionsCommand extends Command
             $permission = Permission::firstOrCreate(
                 [
                     'resource_id' => $resource->id,
-                    'action'      => $action,
+                    'action' => $action,
                 ],
                 [
                     'name' => $permissionName,

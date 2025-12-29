@@ -10,13 +10,13 @@ class PermissionFactory extends Factory
 {
     public function definition(): array
     {
-        $name   = $this->faker->unique()->sentence(2);
+        $name = $this->faker->unique()->sentence(2);
         $action = Str::slug($name);
 
         return [
             'resource_id' => Resource::factory(),
-            'name'        => ucfirst($name),
-            'action'      => $action,
+            'name' => ucfirst($name),
+            'action' => $action,
         ];
     }
 }

@@ -13,9 +13,9 @@ class UserService
     public function getAllUsers(array $filters = []): Collection|LengthAwarePaginator
     {
         $paginate = data_get($filters, 'paginate');
-        $filters  = collect($filters)->except('paginate')->toArray();
+        $filters = collect($filters)->except('paginate')->toArray();
 
-        $query =  $this->user
+        $query = $this->user
             ->with(['roles', 'sessions'])
             ->applyFilters($filters)
             ->applySort($filters['sort'] ?? null);
@@ -41,7 +41,7 @@ class UserService
 
     public function updateUser(array $data, string $id): User
     {
-        $user =  $this->user->findOrFail($id);
+        $user = $this->user->findOrFail($id);
 
         $user->update($data);
 
@@ -52,6 +52,6 @@ class UserService
 
     public function deleteUser(string $id): bool
     {
-        return  $this->user->findOrFail($id)->delete();
+        return $this->user->findOrFail($id)->delete();
     }
 }

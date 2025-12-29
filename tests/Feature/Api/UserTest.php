@@ -1,15 +1,15 @@
 <?php
 
 use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
 
     $this->admin = User::factory()->create([
-        'name'     => 'admin@example.com',
+        'name' => 'admin@example.com',
         'is_admin' => true,
     ]);
 
@@ -29,9 +29,9 @@ test('can list users', function () {
 test('can create a user', function () {
 
     $response = $this->postJson(route('users.store'), [
-        'name'     => 'Novo Usuário',
-        'email'    => 'novo@example.com',
-        'password' => 'password123'
+        'name' => 'Novo Usuário',
+        'email' => 'novo@example.com',
+        'password' => 'password123',
     ]);
 
     $response->assertCreated()
@@ -45,7 +45,7 @@ test('can create a user', function () {
                 'created_at',
                 'updated_at',
                 'roles',
-            ]
+            ],
         ]);
 
     $this->assertDatabaseHas('users', [
@@ -60,7 +60,7 @@ test('can view a specific user', function () {
     $response = $this->getJson(route('users.show', $user->id));
 
     $response->assertOk()
-        ->assertJsonPath('data.id',  $user->id)
+        ->assertJsonPath('data.id', $user->id)
         ->assertJsonPath('data.name', $user->name)
         ->assertJsonPath('data.email', $user->email)
         ->assertJsonStructure([
@@ -72,13 +72,13 @@ test('can view a specific user', function () {
                 'created_at',
                 'updated_at',
                 'roles',
-            ]
+            ],
         ]);
 });
 
 test('can update a user', function () {
     $user = User::factory()->create([
-        'name' => 'Nome Antigo'
+        'name' => 'Nome Antigo',
     ]);
 
     $response = $this->putJson(route('users.update', $user->id), [
@@ -97,12 +97,12 @@ test('can update a user', function () {
                 'created_at',
                 'updated_at',
                 'roles',
-            ]
+            ],
         ]);
 
     $this->assertDatabaseHas('users', [
-        'id'   => $user->id,
-        'name' => 'Nome Atualizado'
+        'id' => $user->id,
+        'name' => 'Nome Atualizado',
     ]);
 });
 
@@ -115,7 +115,7 @@ test('can delete a user', function () {
     $response->assertNoContent();
 
     $this->assertSoftDeleted('users', [
-        'id' => $user->id
+        'id' => $user->id,
     ]);
 });
 

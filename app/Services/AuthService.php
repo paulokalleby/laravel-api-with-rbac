@@ -30,7 +30,7 @@ class AuthService
             ]);
         }
 
-        //$user->tokens()->delete();
+        // $user->tokens()->delete();
 
         $device = $this->resolveDevice($request->userAgent());
 
@@ -40,7 +40,7 @@ class AuthService
         $token->accessToken->save();
 
         return [
-            'user'  => $user,
+            'user' => $user,
             'token' => $token->plainTextToken,
         ];
     }

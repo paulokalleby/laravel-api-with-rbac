@@ -11,9 +11,13 @@ class CheckLoggedUserPermissions
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()->is_admin) return $next($request);
+        if ($request->user()->is_admin) {
+            return $next($request);
+        }
 
-        if ($request->user()->permissions()->contains(Route::currentRouteName())) return $next($request);
+        if ($request->user()->permissions()->contains(Route::currentRouteName())) {
+            return $next($request);
+        }
 
         return response()->json(['message' => 'Acesso negado'], 403);
     }

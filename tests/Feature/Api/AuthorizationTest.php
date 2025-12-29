@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\User;
-use App\Models\Role;
 use App\Models\Permission;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 
@@ -11,7 +11,7 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
 
     $this->permission = Permission::factory()->create([
-        'name'   => 'List Users',
+        'name' => 'List Users',
         'action' => 'users.index',
     ]);
 

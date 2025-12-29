@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
 use Illuminate\Cache\RateLimiter;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,7 +23,7 @@ class LoginThrottle
 
         if ($this->limiter->tooManyAttempts($key, 3)) {
             return response()->json([
-                'message' => 'Muitas tentativas de login. Tente novamente em ' . $this->limiter->availableIn($key) . ' segundos.'
+                'message' => 'Muitas tentativas de login. Tente novamente em '.$this->limiter->availableIn($key).' segundos.',
             ], Response::HTTP_TOO_MANY_REQUESTS);
         }
 
@@ -40,6 +40,6 @@ class LoginThrottle
 
     protected function throttleKey(Request $request)
     {
-        return Str::lower($request->input('email')) . '|' . $request->ip();
+        return Str::lower($request->input('email')).'|'.$request->ip();
     }
 }

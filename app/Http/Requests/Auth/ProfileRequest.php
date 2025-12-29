@@ -15,8 +15,8 @@ class ProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => ['nullable', 'string', 'min:3', 'max:50'],
-            'email'    => ['nullable', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->id)],
+            'name' => ['nullable', 'string', 'min:3', 'max:50'],
+            'email' => ['nullable', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->id)],
             'password' => ['nullable', 'min:8', 'max:16'],
         ];
     }
@@ -24,8 +24,8 @@ class ProfileRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'name'     => 'nome',
-            'email'    => 'e-mail',
+            'name' => 'nome',
+            'email' => 'e-mail',
             'password' => 'senha',
         ];
     }

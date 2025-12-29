@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes, Sortable, Filterable, Relationable;
+    use Filterable, HasFactory, HasUuids, Relationable, SoftDeletes, Sortable;
 
     protected $fillable = [
         'name',
@@ -21,7 +21,7 @@ class Role extends Model
     ];
 
     protected array $filterable = [
-        'name'      => 'like',
+        'name' => 'like',
         'is_active' => '=',
     ];
 

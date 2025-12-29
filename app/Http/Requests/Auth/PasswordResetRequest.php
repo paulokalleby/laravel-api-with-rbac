@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class PasswordResetRequest extends FormRequest
 {
@@ -17,9 +15,9 @@ class PasswordResetRequest extends FormRequest
     {
 
         return [
-            'email'    => ['required','email'],
-            'code'     => ['required','digits:6'],
-            'password' => ['required','string' ,'min:8', 'max:16'],
+            'email' => ['required', 'email'],
+            'code' => ['required', 'digits:6'],
+            'password' => ['required', 'string', 'min:8', 'max:16'],
         ];
     }
 

@@ -25,7 +25,7 @@ trait Filterable
             }
 
             // Ignora campos não permitidos
-            if (!array_key_exists($field, $filterable)) {
+            if (! array_key_exists($field, $filterable)) {
                 continue;
             }
 
@@ -34,18 +34,21 @@ trait Filterable
             // Operador LIKE
             if ($operator === 'like') {
                 $query->where($field, 'LIKE', "%{$value}%");
+
                 continue;
             }
 
             // Operador booleano direto
             if (in_array($operator, ['=', '>', '<', '>=', '<=', '!='])) {
                 $query->where($field, $operator, $value);
+
                 continue;
             }
 
             // Se o operador for uma função/scopo
             if (is_callable([$this, $operator])) {
                 $this->{$operator}($query, $value);
+
                 continue;
             }
         }

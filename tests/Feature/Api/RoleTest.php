@@ -2,8 +2,8 @@
 
 use App\Models\Role;
 use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 
 uses(RefreshDatabase::class);
 
@@ -11,7 +11,7 @@ beforeEach(function () {
 
     $this->admin = User::factory()->create([
         'is_admin' => true,
-        'name'     => 'admin@example.com'
+        'name' => 'admin@example.com',
     ]);
 
     Sanctum::actingAs($this->admin);
@@ -43,7 +43,7 @@ test('can create a role', function () {
                 'updated_at',
                 'users',
                 'permissions',
-            ]
+            ],
         ]);
 
     $this->assertDatabaseHas('roles', [
@@ -69,13 +69,13 @@ test('can view a specific role', function () {
                 'updated_at',
                 'users',
                 'permissions',
-            ]
+            ],
         ]);
 });
 
 test('can update a role', function () {
     $role = Role::factory()->create([
-        'name' => 'Nome Antigo'
+        'name' => 'Nome Antigo',
     ]);
 
     $response = $this->putJson(route('roles.update', $role->id), [
@@ -93,12 +93,12 @@ test('can update a role', function () {
                 'updated_at',
                 'users',
                 'permissions',
-            ]
+            ],
         ]);
 
     $this->assertDatabaseHas('roles', [
-        'id'   => $role->id,
-        'name' => 'Nome Atualizado'
+        'id' => $role->id,
+        'name' => 'Nome Atualizado',
     ]);
 });
 
@@ -111,7 +111,7 @@ test('can delete a role', function () {
     $response->assertNoContent();
 
     $this->assertSoftDeleted('roles', [
-        'id' => $role->id
+        'id' => $role->id,
     ]);
 });
 

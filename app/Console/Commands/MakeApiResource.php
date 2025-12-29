@@ -15,27 +15,27 @@ class MakeApiResource extends Command
 
     public function handle(): int
     {
-        $name     = Str::studly($this->argument('name'));
+        $name = Str::studly($this->argument('name'));
         $relation = $this->option('with');
 
         $replacements = [
-            'model'                => $name,
-            'modelVariable'        => Str::camel($name),
-            'modelPlural'          => Str::plural($name),
+            'model' => $name,
+            'modelVariable' => Str::camel($name),
+            'modelPlural' => Str::plural($name),
 
             // relacionamento (quando existir)
-            'relation'             => $relation,
-            'relationStudly'       => $relation ? Str::studly(Str::singular($relation)) : null,
-            'relationModel'        => $relation ? Str::studly(Str::singular($relation)) : null,
-            'relationLabel'        => $relation ? Str::singular($relation) : null,
-            'relationLabelPlural'  => $relation ? Str::plural($relation) : null,
-            'pivotTable'           => $relation
-                ? Str::snake(Str::singular($relation)) . '_' . Str::snake($name)
+            'relation' => $relation,
+            'relationStudly' => $relation ? Str::studly(Str::singular($relation)) : null,
+            'relationModel' => $relation ? Str::studly(Str::singular($relation)) : null,
+            'relationLabel' => $relation ? Str::singular($relation) : null,
+            'relationLabelPlural' => $relation ? Str::plural($relation) : null,
+            'pivotTable' => $relation
+                ? Str::snake(Str::singular($relation)).'_'.Str::snake($name)
                 : null,
         ];
 
         // definição dos stubs conforme cenário
-        $modelStub   = $relation ? 'model.with-relation.stub'   : 'model.stub';
+        $modelStub = $relation ? 'model.with-relation.stub' : 'model.stub';
         $serviceStub = $relation ? 'service.with-relation.stub' : 'service.stub';
         $requestStub = $relation ? 'request.with-relation.stub' : 'request.stub';
         $resourceStub = $relation ? 'resource.with-relation.stub' : 'resource.stub';
@@ -80,6 +80,7 @@ class MakeApiResource extends Command
     {
         if (file_exists($path)) {
             $this->warn("Ignorado (já existe): {$path}");
+
             return;
         }
 
@@ -87,6 +88,7 @@ class MakeApiResource extends Command
 
         if (! file_exists($stubPath)) {
             $this->error("Stub não encontrado: {$stub}");
+
             return;
         }
 

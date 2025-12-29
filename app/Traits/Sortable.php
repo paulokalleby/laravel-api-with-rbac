@@ -26,7 +26,7 @@ trait Sortable
         $fillable = $this->getFillable();
 
         // Se a coluna não for permitida, usa "created_at"
-        if (!in_array($sort, $fillable) && $sort !== 'created_at' && $sort !== 'updated_at') {
+        if (! in_array($sort, $fillable) && $sort !== 'created_at' && $sort !== 'updated_at') {
             $sort = 'created_at';
         }
 

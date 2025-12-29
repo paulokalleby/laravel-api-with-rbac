@@ -15,7 +15,7 @@ class RoleService
         $paginate = $filters['paginate'] ?? null;
         unset($filters['paginate']);
 
-        $query =  $this->role
+        $query = $this->role
             ->with(['users', 'permissions'])
             ->applyFilters($filters)
             ->applySort($filters['sort'] ?? null);

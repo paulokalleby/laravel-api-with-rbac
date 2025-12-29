@@ -20,7 +20,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, HasUuids, SoftDeletes, Notifiable, Sortable, Filterable, Relationable;
+    use Filterable, HasApiTokens, HasFactory, HasUuids, Notifiable, Relationable, SoftDeletes, Sortable;
 
     protected $fillable = [
         'name',
@@ -31,9 +31,9 @@ class User extends Authenticatable
     ];
 
     protected array $filterable = [
-        'name'      => 'like',
-        'email'     => 'like',
-        'is_admin'  => '=',
+        'name' => 'like',
+        'email' => 'like',
+        'is_admin' => '=',
         'is_active' => '=',
     ];
 
@@ -46,8 +46,8 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password'  => 'hashed',
-            'is_admin'  => 'boolean',
+            'password' => 'hashed',
+            'is_admin' => 'boolean',
             'is_active' => 'boolean',
         ];
     }
@@ -55,7 +55,7 @@ class User extends Authenticatable
     protected function password(): Attribute
     {
         return Attribute::make(
-            set: fn(?string $value) => !empty($value) ? bcrypt($value) : $this->password,
+            set: fn (?string $value) => ! empty($value) ? bcrypt($value) : $this->password,
         );
     }
 
