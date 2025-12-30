@@ -10,13 +10,13 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name'              => fake()->name(),
+            'email'             => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => 'password',
-            'remember_token' => Str::random(10),
-            'is_admin' => false,
-            'is_active' => true,
+            'password'          => 'password',
+            'remember_token'    => Str::random(10),
+            'is_admin'          => false,
+            'is_active'         => true,
         ];
     }
 

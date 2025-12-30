@@ -11,11 +11,11 @@ trait Deviceable
         }
 
         return match (true) {
-            str_contains($userAgent, 'iPhone') => 'iPhone',
-            str_contains($userAgent, 'Android') => 'Android',
+            str_contains($userAgent, 'iPhone')    => 'iPhone',
+            str_contains($userAgent, 'Android')   => 'Android',
             str_contains($userAgent, 'Macintosh') => 'Mac',
-            str_contains($userAgent, 'Windows') => 'Windows',
-            default => 'Unknown device',
+            str_contains($userAgent, 'Windows')   => 'Windows',
+            default                               => 'Unknown device',
         };
     }
 }

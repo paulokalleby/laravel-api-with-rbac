@@ -10,8 +10,8 @@ class PermissionResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'name' => config("rbac.actions.{$this->name}"),
+            'id'     => $this->id,
+            'name'   => config("rbac.actions.{$this->name}"),
             'action' => $this->action,
         ];
     }

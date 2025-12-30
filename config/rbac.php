@@ -17,8 +17,8 @@ return [
 
     'resources' => [
         'permissions' => 'Permissões',
-        'roles' => 'Papéis',
-        'users' => 'Usuários',
+        'roles'       => 'Papéis',
+        'users'       => 'Usuários',
     ],
 
     /*
@@ -36,10 +36,10 @@ return [
     |
     */
     'actions' => [
-        'index' => 'Listar',
-        'show' => 'Detalhes',
-        'store' => 'Criar',
-        'update' => 'Editar',
+        'index'   => 'Listar',
+        'show'    => 'Detalhes',
+        'store'   => 'Criar',
+        'update'  => 'Editar',
         'destroy' => 'Excluir',
     ],
 ];

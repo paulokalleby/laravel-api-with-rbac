@@ -7,8 +7,8 @@ uses(RefreshDatabase::class);
 
 test('can register a user', function () {
     $response = $this->postJson(route('auth.register'), [
-        'name' => 'Maria da Silva',
-        'email' => 'maria@example.com',
+        'name'     => 'Maria da Silva',
+        'email'    => 'maria@example.com',
         'password' => 'password123',
     ]);
 
@@ -30,14 +30,14 @@ test('can register a user', function () {
 
 test('can log in with valid credentials', function () {
     User::factory()->create([
-        'email' => 'maria@example.com',
+        'email'    => 'maria@example.com',
         'password' => 'password123',
     ]);
 
     $response = $this->postJson(route('auth.login'), [
-        'email' => 'maria@example.com',
+        'email'    => 'maria@example.com',
         'password' => 'password123',
-        'device' => 'iPhone',
+        'device'   => 'iPhone',
     ]);
 
     $response->assertOk()
@@ -49,14 +49,14 @@ test('can log in with valid credentials', function () {
 
 test('can access protected route with token', function () {
     User::factory()->create([
-        'email' => 'maria@example.com',
+        'email'    => 'maria@example.com',
         'password' => 'password123',
     ]);
 
     $login = $this->postJson(route('auth.login'), [
-        'email' => 'maria@example.com',
+        'email'    => 'maria@example.com',
         'password' => 'password123',
-        'device' => 'iPhone',
+        'device'   => 'iPhone',
     ]);
 
     $token = $login->json('token');
@@ -71,14 +71,14 @@ test('can access protected route with token', function () {
 
 test('can update profile', function () {
     User::factory()->create([
-        'email' => 'maria@example.com',
+        'email'    => 'maria@example.com',
         'password' => 'password123',
     ]);
 
     $token = $this->postJson(route('auth.login'), [
-        'email' => 'maria@example.com',
+        'email'    => 'maria@example.com',
         'password' => 'password123',
-        'device' => 'iPhone',
+        'device'   => 'iPhone',
     ])->json('token');
 
     $response = $this->putJson(route('auth.profile'), [
@@ -92,14 +92,14 @@ test('can update profile', function () {
 
 test('can log out', function () {
     User::factory()->create([
-        'email' => 'maria@example.com',
+        'email'    => 'maria@example.com',
         'password' => 'password123',
     ]);
 
     $token = $this->postJson(route('auth.login'), [
-        'email' => 'maria@example.com',
+        'email'    => 'maria@example.com',
         'password' => 'password123',
-        'device' => 'iPhone',
+        'device'   => 'iPhone',
     ])->json('token');
 
     $response = $this->postJson(route('auth.logout'), [], [

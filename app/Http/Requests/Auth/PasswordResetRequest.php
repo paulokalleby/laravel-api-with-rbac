@@ -15,8 +15,8 @@ class PasswordResetRequest extends FormRequest
     {
 
         return [
-            'email' => ['required', 'email'],
-            'code' => ['required', 'digits:6'],
+            'email'    => ['required', 'email'],
+            'code'     => ['required', 'digits:6'],
             'password' => ['required', 'string', 'min:8', 'max:16'],
         ];
     }
@@ -24,12 +24,12 @@ class PasswordResetRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'email.required' => 'Campo e-mail é obrigatório!',
-            'email.email' => 'Necessário enviar e-mail válido!',
-            'code.required' => 'Campo código é obrigatório!',
-            'code.digits' => 'Código deve conter 6 digitos !',
+            'email.required'    => 'Campo e-mail é obrigatório!',
+            'email.email'       => 'Necessário enviar e-mail válido!',
+            'code.required'     => 'Campo código é obrigatório!',
+            'code.digits'       => 'Código deve conter 6 digitos !',
             'password.required' => 'Campo senha é obrigatório!',
-            'password.min' => 'Senha com no mínimo :min caracteres!',
+            'password.min'      => 'Senha com no mínimo :min caracteres!',
         ];
     }
 }

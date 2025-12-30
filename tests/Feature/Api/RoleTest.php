@@ -11,7 +11,7 @@ beforeEach(function () {
 
     $this->admin = User::factory()->create([
         'is_admin' => true,
-        'name' => 'admin@example.com',
+        'name'     => 'admin@example.com',
     ]);
 
     Sanctum::actingAs($this->admin);
@@ -97,7 +97,7 @@ test('can update a role', function () {
         ]);
 
     $this->assertDatabaseHas('roles', [
-        'id' => $role->id,
+        'id'   => $role->id,
         'name' => 'Nome Atualizado',
     ]);
 });

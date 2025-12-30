@@ -10,8 +10,8 @@ class ResourceWithPermissionsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'name' => config("rbac.resources.{$this->name}"),
+            'id'          => $this->id,
+            'name'        => config("rbac.resources.{$this->name}"),
             'permissions' => PermissionResource::collection(
                 $this->permissions->sortBy('name')->values()
             ),

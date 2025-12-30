@@ -21,7 +21,7 @@ class Role extends Model
     ];
 
     protected array $filterable = [
-        'name' => 'like',
+        'name'      => 'like',
         'is_active' => '=',
     ];
 

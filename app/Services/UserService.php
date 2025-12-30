@@ -13,7 +13,7 @@ class UserService
     public function getAllUsers(array $filters = []): Collection|LengthAwarePaginator
     {
         $paginate = data_get($filters, 'paginate');
-        $filters = collect($filters)->except('paginate')->toArray();
+        $filters  = collect($filters)->except('paginate')->toArray();
 
         $query = $this->user
             ->with(['roles', 'sessions'])

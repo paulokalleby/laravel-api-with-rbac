@@ -9,7 +9,7 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
 
     $this->admin = User::factory()->create([
-        'name' => 'admin@example.com',
+        'name'     => 'admin@example.com',
         'is_admin' => true,
     ]);
 
@@ -29,8 +29,8 @@ test('can list users', function () {
 test('can create a user', function () {
 
     $response = $this->postJson(route('users.store'), [
-        'name' => 'Novo Usuário',
-        'email' => 'novo@example.com',
+        'name'     => 'Novo Usuário',
+        'email'    => 'novo@example.com',
         'password' => 'password123',
     ]);
 
@@ -82,7 +82,7 @@ test('can update a user', function () {
     ]);
 
     $response = $this->putJson(route('users.update', $user->id), [
-        'name' => 'Nome Atualizado',
+        'name'  => 'Nome Atualizado',
         'email' => $user->email,
     ]);
 
@@ -101,7 +101,7 @@ test('can update a user', function () {
         ]);
 
     $this->assertDatabaseHas('users', [
-        'id' => $user->id,
+        'id'   => $user->id,
         'name' => 'Nome Atualizado',
     ]);
 });
@@ -121,8 +121,8 @@ test('can delete a user', function () {
 
 test('cannot create user with invalid data', function () {
     $response = $this->postJson(route('users.index'), [
-        'name' => '',
-        'email' => 'nao-e-email',
+        'name'     => '',
+        'email'    => 'nao-e-email',
         'password' => '',
     ]);
 
@@ -138,7 +138,7 @@ test('cannot view non-existing user', function () {
 
 test('cannot update non-existing user', function () {
     $response = $this->putJson(route('users.update', '999'), [
-        'name' => 'Teste',
+        'name'  => 'Teste',
         'email' => 'teste@example.com',
     ]);
 

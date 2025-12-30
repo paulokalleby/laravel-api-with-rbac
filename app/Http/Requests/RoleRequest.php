@@ -14,9 +14,9 @@ class RoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:2', 'max:50'],
-            'is_active' => ['nullable', 'boolean'],
-            'permissions' => ['nullable', 'array'],
+            'name'          => ['required', 'string', 'min:2', 'max:50'],
+            'is_active'     => ['nullable', 'boolean'],
+            'permissions'   => ['nullable', 'array'],
             'permissions.*' => ['uuid', 'distinct', 'exists:permissions,id'],
         ];
     }
@@ -24,9 +24,9 @@ class RoleRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => 'nome',
-            'is_active' => 'ativo',
-            'permissions' => 'permissões',
+            'name'          => 'nome',
+            'is_active'     => 'ativo',
+            'permissions'   => 'permissões',
             'permissions.*' => 'permissão',
         ];
     }

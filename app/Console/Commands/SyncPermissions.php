@@ -16,8 +16,8 @@ class SyncPermissionsCommand extends Command
 
     public function handle()
     {
-        $routes = Route::getRoutes();
-        $countResources = 0;
+        $routes           = Route::getRoutes();
+        $countResources   = 0;
         $countPermissions = 0;
 
         foreach ($routes as $route) {
@@ -38,9 +38,9 @@ class SyncPermissionsCommand extends Command
                 continue;
             }
 
-            $resourceName = $parts[0];     // users
+            $resourceName   = $parts[0];     // users
             $permissionName = end($parts);   // update
-            $action = $routeName;    // users.update
+            $action         = $routeName;    // users.update
 
             $resource = Resource::firstOrCreate(
                 ['name' => $resourceName]
@@ -52,7 +52,7 @@ class SyncPermissionsCommand extends Command
             $permission = Permission::firstOrCreate(
                 [
                     'resource_id' => $resource->id,
-                    'action' => $action,
+                    'action'      => $action,
                 ],
                 [
                     'name' => $permissionName,

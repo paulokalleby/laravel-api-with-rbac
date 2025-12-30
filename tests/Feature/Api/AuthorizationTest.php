@@ -11,7 +11,7 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
 
     $this->permission = Permission::factory()->create([
-        'name' => 'List Users',
+        'name'   => 'List Users',
         'action' => 'users.index',
     ]);
 
