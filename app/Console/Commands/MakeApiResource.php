@@ -11,36 +11,37 @@ class MakeApiResource extends Command
         {name : Nome do recurso (ex: User, Product)}
         {--with= : Nome do relacionamento many-to-many (ex: roles)}';
 
-    protected $description = 'Cria Model, Service, Controller, Request e Resource seguindo o padrão da API';
+    protected $description = 'Cria Model, Service, Controller, Request, Resource e Migration seguindo o padrão da API';
 
     public function handle(): int
     {
-        $name = Str::studly($this->argument('name'));
+        $name     = Str::studly($this->argument('name'));
         $relation = $this->option('with');
 
+        $table = Str::snake(Str::pluralStudly($name));
+
         $replacements = [
-            'model' => $name,
+            'model'         => $name,
             'modelVariable' => Str::camel($name),
-            'modelPlural' => Str::plural($name),
+            'modelPlural'   => Str::pluralStudly($name),
+            'table'         => $table,
 
             // relacionamento (quando existir)
-            'relation' => $relation,
-            'relationStudly' => $relation ? Str::studly(Str::singular($relation)) : null,
-            'relationModel' => $relation ? Str::studly(Str::singular($relation)) : null,
-            'relationLabel' => $relation ? Str::singular($relation) : null,
+            'relation'            => $relation,
+            'relationStudly'      => $relation ? Str::studly(Str::singular($relation)) : null,
+            'relationModel'       => $relation ? Str::studly(Str::singular($relation)) : null,
+            'relationLabel'       => $relation ? Str::singular($relation) : null,
             'relationLabelPlural' => $relation ? Str::plural($relation) : null,
-            'pivotTable' => $relation
+            'pivotTable'          => $relation
                 ? Str::snake(Str::singular($relation)).'_'.Str::snake($name)
                 : null,
         ];
 
-        // definição dos stubs conforme cenário
-        $modelStub = $relation ? 'model.with-relation.stub' : 'model.stub';
-        $serviceStub = $relation ? 'service.with-relation.stub' : 'service.stub';
-        $requestStub = $relation ? 'request.with-relation.stub' : 'request.stub';
+        $modelStub    = $relation ? 'model.with-relation.stub' : 'model.stub';
+        $serviceStub  = $relation ? 'service.with-relation.stub' : 'service.stub';
+        $requestStub  = $relation ? 'request.with-relation.stub' : 'request.stub';
         $resourceStub = $relation ? 'resource.with-relation.stub' : 'resource.stub';
 
-        // geração dos arquivos
         $this->generate(
             $modelStub,
             app_path("Models/{$name}.php"),
@@ -68,6 +69,16 @@ class MakeApiResource extends Command
         $this->generate(
             $resourceStub,
             app_path("Http/Resources/{$name}Resource.php"),
+            $replacements
+        );
+
+        // migration padrão (sem pivot)
+        $timestamp = now()->format('Y_m_d_His');
+        $migration = "{$timestamp}_create_{$table}_table.php";
+
+        $this->generate(
+            'migration.stub',
+            database_path("migrations/{$migration}"),
             $replacements
         );
 
