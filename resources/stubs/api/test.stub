@@ -1,0 +1,157 @@
+<?php
+
+use App\Models\{{ model }};
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
+
+uses(RefreshDatabase::class);
+
+beforeEach(function () {
+
+    $this->admin = User::factory()->create([
+        'is_admin' => true,
+        'name'     => 'admin@example.com',
+    ]);
+
+    Sanctum::actingAs($this->admin);
+});
+
+test('can list {{ table }}', function () {
+
+    {{ model }}::factory()->count(3)->create();
+
+    $response = $this->getJson(route('{{ table }}.index'));
+
+    $response->assertOk()->assertJsonCount(3, 'data');
+});
+
+test('can list {{ table }}  with pagination', function () {
+
+    {{ model }}::factory()->count(15)->create();
+
+    $response = $this->getJson(
+        route('{{ table }}.index', ['paginate' => 10])
+    );
+
+    $response->assertOk()
+        ->assertJsonStructure([
+            'data',
+            'links',
+            'meta',
+        ])
+        ->assertJsonCount(10, 'data');
+});
+
+test('can create a {{ modelVariable }}', function () {
+
+    $response = $this->postJson(route('{{ table }}.store'), [
+        'name' => 'Novo Recurso',
+    ]);
+
+    $response->assertCreated()
+        ->assertJsonPath('data.name', 'Novo Recurso')
+        ->assertJsonStructure([
+            'data' => [
+                'id',
+                //
+                'created_at',
+                'updated_at',
+            ],
+        ]);
+
+    $this->assertDatabaseHas('{{ table }}', [
+        'name' => 'Novo Recurso',
+    ]);
+});
+
+test('can view a specific {{ modelVariable }}', function () {
+
+    ${{ modelVariable }} = {{ model }}::factory()->create();
+
+    $response = $this->getJson(route('{{ table }}.show', ${{ modelVariable }}->id));
+
+    $response->assertOk()
+        ->assertJsonPath('data.id', ${{ modelVariable }}->id)
+        ->assertJsonPath('data.name', ${{ modelVariable }}->name)
+        ->assertJsonStructure([
+            'data' => [
+                'id',
+                //
+                'created_at',
+                'updated_at',
+            ],
+        ]);
+});
+
+test('can update a {{ modelVariable }}', function () {
+    ${{ modelVariable }} = {{ model }}::factory()->create([
+        'name' => 'Nome Antigo',
+    ]);
+
+    $response = $this->putJson(route('{{ table }}.update', ${{ modelVariable }}->id), [
+        'name' => 'Nome Atualizado',
+    ]);
+
+    $response->assertOk()
+        ->assertJsonPath('data.name', 'Nome Atualizado')
+        ->assertJsonStructure([
+            'data' => [
+                'id',
+                //
+                'created_at',
+                'updated_at',
+            ],
+        ]);
+
+    $this->assertDatabaseHas('{{ table }}', [
+        'id'   => ${{ modelVariable }}->id,
+        'name' => 'Nome Atualizado',
+    ]);
+});
+
+test('can delete a {{ modelVariable }}', function () {
+
+    ${{ modelVariable }} = {{ model }}::factory()->create();
+
+    $response = $this->deleteJson(route('{{ table }}.destroy', ${{ modelVariable }}->id));
+
+    $response->assertNoContent();
+
+    $this->assertSoftDeleted('{{ table }}', [
+        'id' => ${{ modelVariable }}->id,
+    ]);
+});
+
+test('cannot create {{ modelVariable }} with invalid data', function () {
+
+    $response = $this->postJson(route('{{ table }}.store'), [
+        'name' => 'n',
+    ]);
+
+    $response->assertStatus(422)
+        ->assertJsonValidationErrors(['name']);
+});
+
+test('cannot view non-existing {{ modelVariable }}', function () {
+
+    $response = $this->getJson(route('{{ table }}.show', '999'));
+
+    $response->assertNotFound();
+});
+
+test('cannot update non-existing {{ modelVariable }}', function () {
+
+    $response = $this->putJson(route('{{ table }}.update', '999'), [
+        'name' => 'Teste',
+    ]);
+
+    $response->assertNotFound();
+});
+
+test('cannot delete non-existing {{ modelVariable }}', function () {
+
+    $response = $this->deleteJson(route('{{ table }}.destroy', '999'));
+
+    $response->assertNotFound();
+});

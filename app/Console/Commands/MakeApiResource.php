@@ -7,11 +7,11 @@ use Illuminate\Support\Str;
 
 class MakeApiResource extends Command
 {
-    protected $signature = 'make:api-resource
+    protected $signature = 'api:resource
         {name : Nome do recurso (ex: User, Product)}
         {--with= : Nome do relacionamento many-to-many (ex: roles)}';
 
-    protected $description = 'Cria Model, Service, Controller, Request, Resource e Migration seguindo o padrão da API';
+    protected $description = 'Cria Model, Service, Controller, Request, Resource, Migration, Factory e Test seguindo o padrão da API';
 
     public function handle(): int
     {
@@ -33,7 +33,7 @@ class MakeApiResource extends Command
             'relationLabel'       => $relation ? Str::singular($relation) : null,
             'relationLabelPlural' => $relation ? Str::plural($relation) : null,
             'pivotTable'          => $relation
-                ? Str::snake(Str::singular($relation)).'_'.Str::snake($name)
+                ? Str::snake(Str::singular($relation)) . '_' . Str::snake($name)
                 : null,
         ];
 
@@ -79,6 +79,18 @@ class MakeApiResource extends Command
         $this->generate(
             'migration.stub',
             database_path("migrations/{$migration}"),
+            $replacements
+        );
+
+        $this->generate(
+            'factory.stub',
+            database_path("factories/{$name}Factory.php"),
+            $replacements
+        );
+
+        $this->generate(
+            'test.stub',
+            base_path("tests/Feature/Api/{$name}Test.php"),
             $replacements
         );
 
