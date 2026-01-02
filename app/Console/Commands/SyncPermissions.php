@@ -8,7 +8,7 @@ use App\Models\Resource;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Route;
 
-class SyncPermissionsCommand extends Command
+class SyncPermissions extends Command
 {
     protected $signature = 'rbac:sync';
 
