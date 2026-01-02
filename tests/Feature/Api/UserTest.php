@@ -26,6 +26,23 @@ test('can list users', function () {
         ->assertJsonCount(4, 'data');
 });
 
+test('can list users with pagination', function () {
+
+    User::factory()->count(15)->create();
+
+    $response = $this->getJson(
+        route('users.index', ['paginate' => 10])
+    );
+
+    $response->assertOk()
+        ->assertJsonStructure([
+            'data',
+            'links',
+            'meta',
+        ])
+        ->assertJsonCount(10, 'data');
+});
+
 test('can create a user', function () {
 
     $response = $this->postJson(route('users.store'), [

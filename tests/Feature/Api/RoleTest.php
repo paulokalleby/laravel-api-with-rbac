@@ -26,6 +26,24 @@ test('can list roles', function () {
     $response->assertOk()->assertJsonCount(3, 'data');
 });
 
+test('can list roles with pagination', function () {
+
+    Role::factory()->count(15)->create();
+
+    $response = $this->getJson(
+        route('roles.index', ['paginate' => 10])
+    );
+
+    $response->assertOk()
+        ->assertJsonStructure([
+            'data',
+            'links',
+            'meta',
+        ])
+        ->assertJsonCount(10, 'data');
+});
+
+
 test('can create a role', function () {
 
     $response = $this->postJson(route('roles.store'), [
